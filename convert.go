@@ -61,8 +61,8 @@ func structToMap(val reflect.Value, tagName string) map[string]any {
 		sf := t.Field(i)
 		fv := val.Field(i)
 
-		// Skip unexported fields
-		if !sf.IsExported() {
+		// Skip unexported non-embedded fields
+		if !sf.IsExported() && !sf.Anonymous {
 			continue
 		}
 
@@ -120,7 +120,7 @@ func structValues(val reflect.Value, tagName string) []any {
 		sf := t.Field(i)
 		fv := val.Field(i)
 
-		if !sf.IsExported() {
+		if !sf.IsExported() && !sf.Anonymous {
 			continue
 		}
 
@@ -143,7 +143,7 @@ func structNames(val reflect.Value, tagName string) []string {
 	for i := 0; i < t.NumField(); i++ {
 		sf := t.Field(i)
 
-		if !sf.IsExported() {
+		if !sf.IsExported() && !sf.Anonymous {
 			continue
 		}
 
@@ -166,7 +166,7 @@ func isZero(val reflect.Value, tagName string) bool {
 		sf := t.Field(i)
 		fv := val.Field(i)
 
-		if !sf.IsExported() {
+		if !sf.IsExported() && !sf.Anonymous {
 			continue
 		}
 
@@ -191,7 +191,7 @@ func hasZero(val reflect.Value, tagName string) bool {
 		sf := t.Field(i)
 		fv := val.Field(i)
 
-		if !sf.IsExported() {
+		if !sf.IsExported() && !sf.Anonymous {
 			continue
 		}
 
